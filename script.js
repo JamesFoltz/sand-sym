@@ -16,7 +16,7 @@ let grid = Array.from({ length: rows }, () => Array(cols).fill(new Air()));
 // Track the last mouse position and brush state
 let lastMousePos = null;
 let isMouseDown = false;
-let currentMaterial = new Sand(); // Default to Sand
+let currentMaterial = new Water(); // Default to Sand
 let brushSize = 1; // Default brush size
 
 // Function to draw the grid

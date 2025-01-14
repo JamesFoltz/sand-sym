@@ -1,5 +1,5 @@
 // input.js
-var currentMaterialIndex = 0
+var currentMaterialIndex = 1
 function coordinate(event) {
     const rect = canvas.getBoundingClientRect();  // Get the canvas position
     mousePosX = event.clientX - rect.left;  // Adjust for the canvas's left position

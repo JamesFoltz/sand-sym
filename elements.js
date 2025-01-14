@@ -92,87 +92,49 @@ class Water extends Material {
     }
 
     tryMoveLeft(grid, x, y) {
-        if (x > 0 && grid[y][x - 1] instanceof Air) {
-            grid[y][x - 1] = this;  // Move water to the left
-            grid[y][x] = new Air();  // Set current cell to air
-            return true;
+        for (let i = 1; i < this.searchDistance; i++) {
+            if (x > 0 && grid[y][x - i] instanceof Air) {
+                grid[y][x - i] = this;  // Move water to the left
+                grid[y][x] = new Air();  // Set current cell to air
+                return true;
+            }
         }
         this.dir = 1; // Change direction to right if left is blocked
         return false;
     }
 
     tryMoveRight(grid, x, y) {
-        if (x < cols - 1 && grid[y][x + 1] instanceof Air) {
-            grid[y][x + 1] = this;  // Move water to the right
-            grid[y][x] = new Air();  // Set current cell to air
-            return true;
+        for (let i = 1; i < this.searchDistance; i++) {
+
+            if (x < cols - 1 && grid[y][x + i] instanceof Air) {
+                grid[y][x + i] = this;  // Move water to the right
+                grid[y][x] = new Air();  // Set current cell to air
+                return true;
+            }
         }
         this.dir = -1; // Change direction to left if right is blocked
         return false;
     }
 
-    tryMoveDownLeft(grid, x, y) {
-        if (x > 0 && y < rows - 1 && grid[y + 1][x - 1] instanceof Air) {
-            grid[y + 1][x - 1] = this;  // Move water down-left
-            grid[y][x] = new Air();  // Set current cell to air
-            return true;
-        }
-        return false;
-    }
-
-    tryMoveDownRight(grid, x, y) {
-        if (x < cols - 1 && y < rows - 1 && grid[y + 1][x + 1] instanceof Air) {
-            grid[y + 1][x + 1] = this;  // Move water down-right
-            grid[y][x] = new Air();  // Set current cell to air
-            return true;
-        }
-        return false;
-    }
-
-    // Method to search for the first available space within the given range
-    searchMove(grid, x, y) {
-        for (let distance = 1; distance <= this.searchDistance; distance++) {
-            // Try moving straight down
-            if (y + distance < rows && grid[y + distance][x] instanceof Air) {
-                return { x: x, y: y + distance }; // Found a space below
-            }
-
-            // Try moving diagonally down-left
-            if (x - distance >= 0 && y + distance < rows && grid[y + distance][x - distance] instanceof Air) {
-                return { x: x - distance, y: y + distance }; // Found a space down-left
-            }
-
-            // Try moving diagonally down-right
-            if (x + distance < cols && y + distance < rows && grid[y + distance][x + distance] instanceof Air) {
-                return { x: x + distance, y: y + distance }; // Found a space down-right
-            }
-        }
-        return null; // No available space found within the search distance
-    }
-
     // Method to move water
     move(grid, x, y) {
         if (y < rows - 1) {
-            // Try searching for a move within the defined distance
-            let move = this.searchMove(grid, x, y);
-
-            if (move) {
-                grid[move.y][move.x] = this;  // Move the water
-                grid[y][x] = new Air();  // Set current cell to air
-                return true;
+            for (let i = 1; i < this.searchDistance; i++) {
+                // Check if we are within bounds of the grid
+                if (y + i < grid.length && grid[y + i][x] instanceof Air) {
+                    grid[y + i][x] = this;  // Move water to the new position
+                    grid[y][x] = new Air();  // Set current cell to air
+                    return true;
+                }
             }
-
-            // If no space found in the search area, try moving left or right based on direction
+            
+            // If no spac found in the search area, try moving left or right based on direction
             if (this.dir === 1) { // Move right
                 if (this.tryMoveRight(grid, x, y)) return true;
-                if (this.tryMoveDownRight(grid, x, y)) return true; // Try down-right if right is blocked
                 if (this.tryMoveLeft(grid, x, y)) return true; // Try left as fallback
-                if (this.tryMoveDownLeft(grid, x, y)) return true; // Try down-left if left is blocked
             } else { // Move left
                 if (this.tryMoveLeft(grid, x, y)) return true;
-                if (this.tryMoveDownLeft(grid, x, y)) return true; // Try down-left if left is blocked
                 if (this.tryMoveRight(grid, x, y)) return true; // Try right as fallback
-                if (this.tryMoveDownRight(grid, x, y)) return true; // Try down-right if right is blocked
             }
         }
         return false; // No movement possible
