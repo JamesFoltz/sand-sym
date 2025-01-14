@@ -1,5 +1,3 @@
-// utils.js
-
 // Function to draw a brush of material in a square
 function drawBrushOfMaterial(x, y) {
     const halfBrushSize = Math.floor(brushSize / 2);
@@ -22,4 +20,11 @@ function drawBrushOfMaterial(x, y) {
 function updateIndicator() {
     const indicatorElement = document.getElementById('material-indicator');
     indicatorElement.textContent = `Current Material: ${currentMaterial.constructor.name}`;
+}
+
+function swapCells(cellAX,cellAY,cellBX,cellBY,) {
+    let cellA = grid[cellAY][cellAX];
+    let cellB = grid[cellBY][cellBX];
+    grid[cellAY][cellAX] = cellB;
+    grid[cellBY][cellBX] = cellB;
 }
