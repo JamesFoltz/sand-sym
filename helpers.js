@@ -21,10 +21,3 @@ function updateIndicator() {
     const indicatorElement = document.getElementById('material-indicator');
     indicatorElement.textContent = `Current Material: ${currentMaterial.constructor.name}`;
 }
-
-function swapCells(cellAX,cellAY,cellBX,cellBY,) {
-    let cellA = grid[cellAY][cellAX];
-    let cellB = grid[cellBY][cellBX];
-    grid[cellAY][cellAX] = cellB;
-    grid[cellBY][cellBX] = cellB;
-}
