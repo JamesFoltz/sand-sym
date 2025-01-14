@@ -1,0 +1,31 @@
+/* style.css */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Stack indicator above canvas */
+    background-color: #f0f0f0;
+}
+
+canvas {
+    border: 1px solid #000;
+    margin-top: 10px; /* Add spacing between canvas and indicator */
+}
+
+#indicator-container {
+    background-color: #333;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    position: absolute;
+    top: 10px;
+}
+
+#material-indicator {
+    font-weight: bold;
+}
